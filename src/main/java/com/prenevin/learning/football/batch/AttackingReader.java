@@ -5,13 +5,16 @@ import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
 
-public class Reader extends FlatFileItemReader<Attacking> {
+public class AttackingReader extends FlatFileItemReader<Attacking> {
 
-    public Reader() {
+    private final class BeanWrapperFieldSetMapperExtension extends BeanWrapperFieldSetMapper<Attacking> {
+        {
+                setTargetType(Attacking.class);
+            }
+    }
+
+    public AttackingReader() {
 
         FlatFileItemReader<Attacking> reader = this;
 
@@ -41,11 +44,11 @@ public class Reader extends FlatFileItemReader<Attacking> {
                     }
                 });
                 //Set values in Attacking class
-                setFieldSetMapper(new BeanWrapperFieldSetMapper<Attacking>() {
-                {
-                        setTargetType(Attacking.class);
-                    }
-                });
+                // setFieldSetMapper((fieldSet) -> {
+                //
+                //     return null;
+                // });
+                setFieldSetMapper(new BeanWrapperFieldSetMapperExtension());
             }
         });
     }
