@@ -29,7 +29,7 @@ public class BatchConfig {
 
 	@Bean
 	public Step orderStep1() {
-		return stepBuilderFactory.get("orderStep1").<String, String> chunk(10)
+		return stepBuilderFactory.get("orderStep1").<Attacking, String> chunk(10)
         .reader(new Reader())
         .processor(new Processor())
         .writer(new Writer()).build();

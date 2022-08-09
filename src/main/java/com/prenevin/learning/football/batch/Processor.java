@@ -2,12 +2,15 @@ package com.prenevin.learning.football.batch;
 
 import org.springframework.batch.item.ItemProcessor;
 
-public class Processor implements ItemProcessor<String, String> {
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class Processor implements ItemProcessor<Attacking, Attacking> {
 
     @Override
-    public String process(String item) throws Exception {
+    public Attacking process(final Attacking item) throws Exception {
         System.out.println("In processor, item=" + item);
-        return item.toUpperCase();
+        return item;
     }
 
 }

@@ -1,15 +1,16 @@
 package com.prenevin.learning.football.batch;
 
-import java.util.List;
+import javax.sql.DataSource;
 
-import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
+import org.springframework.batch.item.database.JdbcBatchItemWriter;
 
-public class Writer implements ItemWriter<String> {
-
-    @Override
-    public void write(List<? extends String> items) throws Exception {
-        System.out.println("items.size "+ items.size());
-        items.forEach(s -> System.out.println(s));
+public class Writer extends JdbcBatchItemWriter<Attacking> {
+    public Writer(final DataSource dataSource) {
+        JdbcBatchItemWriter<Attacking> itemWriter = this; 
+        itemWriter.setDataSource(dataSource);
+        itemWriter.setSql("INSERT INTO attacking(serial,player_name,club,position,assists,corner_taken,offsides,dribbles,match_played) VALUES ( :serial, :player_name, :club, :position, :assists, :corner_taken, :offsides, :dribbles, :match_played)");
+        itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Attacking>());
     }
 
 }
